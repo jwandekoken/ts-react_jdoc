@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
+import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -31,7 +32,7 @@ const App = () => {
         entryPoints: ["index.js"],
         bundle: true,
         write: false,
-        plugins: [unpkgPathPlugin(input)],
+        plugins: [unpkgPathPlugin(), fetchPlugin(input)],
         // This feature provides a way to replace global identifiers with constant expressions
         define: {
           // see below that if we pass only 'production', it will replace the var 'process.env.NODE_ENV' with a var 'production', so, we have to wrap it in quotes, inside the first pair of quotes, so ESBuild will replace it by the string 'production', not a production var
